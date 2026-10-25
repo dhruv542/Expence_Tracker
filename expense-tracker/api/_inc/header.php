@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/_inc/functions.php';
+require_once __DIR__ . '/functions.php';
 $page = basename($_SERVER['SCRIPT_NAME']);
 $nav = ['index.php' => 'Overview', 'expenses.php' => 'Expenses', 'categories.php' => 'Categories'];
 ?>
