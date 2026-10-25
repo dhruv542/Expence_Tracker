@@ -1,6 +1,6 @@
 <?php
 $title = 'Expenses';
-require_once dirname(__DIR__) . '/includes/functions.php';
+require_once __DIR__ . '/_inc/functions.php';
 require_login();
 include __DIR__ . '/_inc/header.php';
 $uid = (int)$_SESSION['user_id'];

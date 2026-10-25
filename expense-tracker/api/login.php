@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__DIR__) . '/includes/functions.php';
+require_once __DIR__ . '/_inc/functions.php';
 if (!empty($_SESSION['user_id'])) { header('Location: index.php'); exit; }
 $err = ''; $email = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
