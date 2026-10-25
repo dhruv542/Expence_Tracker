@@ -1,8 +1,8 @@
 <?php
 $title = 'Expenses';
-require 'includes/functions.php';
+require_once dirname(__DIR__) . '/includes/functions.php';
 require_login();
-include 'includes/header.php';
+include __DIR__ . '/_inc/header.php';
 $uid = (int)$_SESSION['user_id'];
 [$where, $params] = expense_filters($uid);
 
@@ -46,4 +46,4 @@ $qs = http_build_query(array_filter(['from'=>$_GET['from']??'','to'=>$_GET['to']
     <?php endforeach; ?>
   </table></div><?php endif; ?>
 </section>
-<?php include 'includes/footer.php'; ?>
+<?php include __DIR__ . '/_inc/footer.php'; ?>

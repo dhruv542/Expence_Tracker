@@ -1,5 +1,5 @@
 <?php
-require 'includes/functions.php';
+require_once dirname(__DIR__) . '/includes/functions.php';
 if (!empty($_SESSION['user_id'])) { header('Location: index.php'); exit; }
 $err = ''; $name = $email = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 $title = 'Create account';
-include 'includes/header.php';
+include __DIR__ . '/_inc/header.php';
 ?>
 <section class="auth">
   <h1>Create your account</h1>
@@ -39,4 +39,4 @@ include 'includes/header.php';
   </form>
   <p class="muted">Already registered? <a href="login.php">Log in</a></p>
 </section>
-<?php include 'includes/footer.php'; ?>
+<?php include __DIR__ . '/_inc/footer.php'; ?>

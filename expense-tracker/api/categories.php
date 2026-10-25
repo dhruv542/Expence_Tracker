@@ -1,5 +1,5 @@
 <?php
-require 'includes/functions.php';
+require_once dirname(__DIR__) . '/includes/functions.php';
 require_login();
 $uid = (int)$_SESSION['user_id'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -21,7 +21,7 @@ $s = $pdo->prepare('SELECT c.id, c.name, COUNT(e.id) n, COALESCE(SUM(e.amount),0
   FROM categories c LEFT JOIN expenses e ON e.category_id=c.id WHERE c.user_id=? GROUP BY c.id ORDER BY c.name');
 $s->execute([$uid]); $cats = $s->fetchAll();
 $title = 'Categories';
-include 'includes/header.php';
+include __DIR__ . '/_inc/header.php';
 ?>
 <div class="head"><h1>Categories</h1></div>
 <form class="filters" method="post"><?= csrf_field() ?><input type="hidden" name="action" value="add">
@@ -39,4 +39,4 @@ include 'includes/header.php';
     <?php endforeach; ?>
   </table>
 </section>
-<?php include 'includes/footer.php'; ?>
+<?php include __DIR__ . '/_inc/footer.php'; ?>

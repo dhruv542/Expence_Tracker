@@ -1,5 +1,5 @@
 <?php
-require 'includes/functions.php';
+require_once dirname(__DIR__) . '/includes/functions.php';
 require_login();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();

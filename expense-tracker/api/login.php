@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $err = 'Email or password is incorrect.';
 }
 $title = 'Log in';
-include 'includes/header.php';
+include __DIR__ . '/_inc/header.php';
 ?>
 <section class="auth">
   <h1>Log in</h1>
@@ -27,4 +27,4 @@ include 'includes/header.php';
   </form>
   <p class="muted">New here? <a href="register.php">Create an account</a></p>
 </section>
-<?php include 'includes/footer.php'; ?>
+<?php include __DIR__ . '/_inc/footer.php'; ?>

@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $exp = ['amount' => $_POST['amount'], 'category_id' => $cat, 'description' => $desc, 'expense_date' => $date];
 }
 $title = $id ? 'Edit expense' : 'Add expense';
-include 'includes/header.php';
+include __DIR__ . '/_inc/header.php';
 ?>
 <section class="auth wide">
   <h1><?= e($title) ?></h1>
@@ -52,4 +52,4 @@ include 'includes/header.php';
     <div class="row"><button class="btn">Save expense</button><a href="expenses.php">Cancel</a></div>
   </form>
 </section>
-<?php include 'includes/footer.php'; ?>
+<?php include __DIR__ . '/_inc/footer.php'; ?>

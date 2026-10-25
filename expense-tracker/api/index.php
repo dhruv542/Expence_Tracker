@@ -2,7 +2,7 @@
 $title = 'Overview';
 require_once dirname(__DIR__) . '/includes/functions.php';
 require_login();
-include 'includes/header.php';
+include __DIR__ . '/_inc/header.php';
 $uid = (int)$_SESSION['user_id'];
 
 $first = date('Y-m-01'); $last = date('Y-m-t');
@@ -97,4 +97,4 @@ new Chart(document.getElementById('pie'), {
 });
 <?php endif; ?>
 </script>
-<?php include 'includes/footer.php'; ?>
+<?php include __DIR__ . '/_inc/footer.php';?>

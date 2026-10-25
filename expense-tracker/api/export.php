@@ -1,5 +1,5 @@
 <?php
-require 'includes/functions.php';
+require_once dirname(__DIR__) . '/includes/functions.php';
 require_login();
 [$where, $params] = expense_filters((int)$_SESSION['user_id']);
 $s = $pdo->prepare("SELECT e.expense_date, c.name cat, e.description, e.amount FROM expenses e
