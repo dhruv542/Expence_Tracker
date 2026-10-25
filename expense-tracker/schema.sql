@@ -26,3 +26,10 @@ CREATE TABLE IF NOT EXISTS expenses (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS sessions (
+  id VARCHAR(128) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
+  data MEDIUMBLOB NOT NULL,
+  last_activity INT UNSIGNED NOT NULL,
+  INDEX idx_sessions_last_activity (last_activity)
+) ENGINE=InnoDB;

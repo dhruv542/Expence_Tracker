@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_regenerate_id(true);
             $_SESSION['user_id'] = $uid; $_SESSION['user_name'] = $name;
             flash('Welcome! Your account is ready. Add your first expense.');
-            header('Location: /api/expense_form.php'); exit;
+            header('Location: /api/index.php'); exit;
         }
     }
 }
