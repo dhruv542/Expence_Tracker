@@ -1,6 +1,6 @@
 <?php
 $title = 'Overview';
-require 'includes/functions.php';
+require_once dirname(__DIR__) . '/includes/functions.php';
 require_login();
 include 'includes/header.php';
 $uid = (int)$_SESSION['user_id'];
