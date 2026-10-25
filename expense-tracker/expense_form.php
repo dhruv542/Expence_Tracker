@@ -1,5 +1,6 @@
 <?php
 require 'includes/functions.php';
+require_once __DIR__ . '/includes/functions.php';
 require_login();
 $uid = (int)$_SESSION['user_id'];
 $id = (int)($_GET['id'] ?? $_POST['id'] ?? 0);
