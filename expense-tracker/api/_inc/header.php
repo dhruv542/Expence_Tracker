@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/_inc/functions.php';
 $page = basename($_SERVER['SCRIPT_NAME']);
 $nav = ['index.php' => 'Overview', 'expenses.php' => 'Expenses', 'categories.php' => 'Categories'];
 ?>
@@ -12,7 +12,7 @@ $nav = ['index.php' => 'Overview', 'expenses.php' => 'Expenses', 'categories.php
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
 <?php if (!empty($_SESSION['user_id'])): ?>
