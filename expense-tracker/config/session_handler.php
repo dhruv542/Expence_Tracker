@@ -1,9 +1,14 @@
 <?php
 
-final class DatabaseSessionHandler implements SessionHandlerInterface
+final class CookieSessionHandler implements SessionHandlerInterface
 {
-    public function __construct(private PDO $pdo)
+    private const COOKIE_NAME = 'LEDGERSESSID_DATA';
+    private const CIPHER = 'aes-256-gcm';
+    private string $key;
+
+    public function __construct(string $secret, private bool $secureCookie)
     {
+        $this->key = hash('sha256', "ledger-session-v1\0" . $secret, true);
     }
 
     public function open(string $path, string $name): bool
@@ -18,41 +23,72 @@ final class DatabaseSessionHandler implements SessionHandlerInterface
 
     public function read(string $id): string|false
     {
-        $statement = $this->pdo->prepare(
-            'SELECT data FROM sessions WHERE id = ? AND last_activity >= ?'
-        );
-        $statement->execute([$id, time() - (int)ini_get('session.gc_maxlifetime')]);
-        $data = $statement->fetchColumn();
+        $encoded = $_COOKIE[self::COOKIE_NAME] ?? '';
+        if (!is_string($encoded) || !preg_match('/^[A-Za-z0-9_-]+$/D', $encoded)) {
+            return '';
+        }
 
-        return $data === false ? '' : (string)$data;
+        $encoded = strtr($encoded, '-_', '+/');
+        $encoded .= str_repeat('=', (4 - strlen($encoded) % 4) % 4);
+        $payload = base64_decode($encoded, true);
+        if ($payload === false || strlen($payload) < 28) {
+            return '';
+        }
+
+        $data = openssl_decrypt(
+            substr($payload, 28),
+            self::CIPHER,
+            $this->key,
+            OPENSSL_RAW_DATA,
+            substr($payload, 0, 12),
+            substr($payload, 12, 16),
+            'ledger-session-v1'
+        );
+
+        return $data === false ? '' : $data;
     }
 
     public function write(string $id, string $data): bool
     {
-        $now = time();
-        $statement = $this->pdo->prepare(
-            'INSERT INTO sessions (id, data, last_activity) VALUES (?, ?, ?)
-             ON DUPLICATE KEY UPDATE data = ?, last_activity = ?'
+        $nonce = random_bytes(12);
+        $tag = '';
+        $ciphertext = openssl_encrypt(
+            $data,
+            self::CIPHER,
+            $this->key,
+            OPENSSL_RAW_DATA,
+            $nonce,
+            $tag,
+            'ledger-session-v1'
         );
+        if ($ciphertext === false) {
+            return false;
+        }
 
-        return $statement->execute([$id, $data, $now, $data, $now]);
+        $value = rtrim(strtr(base64_encode($nonce . $tag . $ciphertext), '+/', '-_'), '=');
+
+        return setcookie(self::COOKIE_NAME, $value, [
+            'expires' => time() + (int)ini_get('session.gc_maxlifetime'),
+            'path' => '/',
+            'secure' => $this->secureCookie,
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
     }
 
     public function destroy(string $id): bool
     {
-        $statement = $this->pdo->prepare('DELETE FROM sessions WHERE id = ?');
-
-        return $statement->execute([$id]);
+        return setcookie(self::COOKIE_NAME, '', [
+            'expires' => time() - 3600,
+            'path' => '/',
+            'secure' => $this->secureCookie,
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
     }
 
     public function gc(int $max_lifetime): int|false
     {
-        $statement = $this->pdo->prepare('DELETE FROM sessions WHERE last_activity < ?');
-
-        if (!$statement->execute([time() - $max_lifetime])) {
-            return false;
-        }
-
-        return $statement->rowCount();
+        return 0;
     }
 }
