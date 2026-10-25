@@ -16,7 +16,7 @@ function csrf_check() {
     }
 }
 function require_login() {
-    if (empty($_SESSION['user_id'])) { header('Location: login.php'); exit; }
+    if (empty($_SESSION['user_id'])) { header('Location: /api/login.php'); exit; }
 }
 function flash($msg = null, $type = 'ok') {
     if ($msg !== null) { $_SESSION['flash'] = [$msg, $type]; return null; }
