@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_regenerate_id(true);
             $_SESSION['user_id'] = $uid; $_SESSION['user_name'] = $name;
             flash('Welcome! Your account is ready. Add your first expense.');
-            header('Location: expense_form.php'); exit;
+            header('Location: /api/expense_form.php'); exit;
         }
     }
 }
@@ -37,6 +37,6 @@ include __DIR__ . '/_inc/header.php';
     <label>Password<input type="password" name="password" minlength="8" required></label>
     <button class="btn">Create account</button>
   </form>
-  <p class="muted">Already registered? <a href="login.php">Log in</a></p>
+  <p class="muted">Already registered? <a href="/api/login.php">Log in</a></p>
 </section>
 <?php include __DIR__ . '/_inc/footer.php'; ?>

@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($u && password_verify($_POST['password'] ?? '', $u['password_hash'])) {
         session_regenerate_id(true);
         $_SESSION['user_id'] = (int)$u['id']; $_SESSION['user_name'] = $u['name'];
-        header('Location: index.php'); exit;
+        header('Location: /api/index.php'); exit;
     }
     $err = 'Email or password is incorrect.';
 }
@@ -25,6 +25,6 @@ include __DIR__ . '/_inc/header.php';
     <label>Password<input type="password" name="password" required></label>
     <button class="btn">Log in</button>
   </form>
-  <p class="muted">New here? <a href="register.php">Create an account</a></p>
+  <p class="muted">New here? <a href="/api/register.php">Create an account</a></p>
 </section>
 <?php include __DIR__ . '/_inc/footer.php'; ?>
